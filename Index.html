@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metronome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #currentTempo {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+
+        .flash {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border-radius: 50%;
+            background-color: #fff;
+            transition: background-color 0.1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Metronome</h1>
+        <div class="controls">
+            <label for="tempo">Tempo (BPM):</label>
+            <input type="number" id="tempo" min="1" value="60">
+        </div>
+        <div class="controls">
+            <label for="increment">Increment (BPM):</label>
+            <input type="number" id="increment" min="1" value="1">
+        </div>
+        <div class="controls">
+            <label for="interval">Increment Interval (seconds):</label>
+            <input type="number" id="interval" min="1" value="60">
+        </div>
+        <div class="controls">
+            <label for="timeSignature">Time Signature:</label>
+            <select id="timeSignature">
+                <option value="4">4/4</option>
+                <option value="3">3/4</option>
+                <option value="7">7/8</option>
+            </select>
+        </div>
+        <button id="startBtn">Start</button>
+        <button id="stopBtn">Stop</button>
+        <div id="currentTempo">Current Tempo: <span id="tempoDisplay">60</span> BPM</div>
+        <div class="flash" id="flash"></div>
+    </div>
+    <script>
+        let metronomeInterval;
+        let incrementInterval;
+        let currentTempo;
+        let isRunning = false;
+        let beatCounter = 0;
+        const flash = document.getElementById('flash');
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        document.getElementById('startBtn').addEventListener('click', startMetronome);
+        document.getElementById('stopBtn').addEventListener('click', stopMetronome);
+
+        function startMetronome() {
+            if (isRunning) return;
+
+            isRunning = true;
+            currentTempo = parseInt(document.getElementById('tempo').value);
+            const increment = parseInt(document.getElementById('increment').value);
+            const interval = parseInt(document.getElementById('interval').value) * 1000; // convert seconds to milliseconds
+            const timeSignature = parseInt(document.getElementById('timeSignature').value);
+
+            document.getElementById('tempoDisplay').textContent = currentTempo;
+
+            const beatInterval = (60 / currentTempo) * 1000;
+            metronomeInterval = setInterval(() => {
+                playClick(timeSignature);
+            }, beatInterval);
+            incrementInterval = setInterval(() => {
+                currentTempo += increment;
+                document.getElementById('tempoDisplay').textContent = currentTempo;
+                clearInterval(metronomeInterval);
+                metronomeInterval = setInterval(() => {
+                    playClick(timeSignature);
+                }, (60 / currentTempo) * 1000);
+            }, interval);
+        }
+
+        function stopMetronome() {
+            clearInterval(metronomeInterval);
+            clearInterval(incrementInterval);
+            isRunning = false;
+            beatCounter = 0;
+            flash.style.backgroundColor = '#fff';
+        }
+
+        function playClick(timeSignature) {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(beatCounter % timeSignature === 0 ? 1200 : 800, audioCtx.currentTime); // Accent the first beat
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.1);
+
+            // Flash color change
+            if (beatCounter % timeSignature === 0) {
+                flash.style.backgroundColor = '#ff0000'; // Red for the first beat
+            } else {
+                flash.style.backgroundColor = '#00ff00'; // Green for other beats
+            }
+
+            beatCounter = (beatCounter + 1) % timeSignature;
+        }
+    </script>
+</body>
+</html>
