@@ -3,64 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metronome</title>
+    <title>RJ Metronome</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            color: #ffffff;
         }
 
         .container {
-            background-color: #fff;
+            background: linear-gradient(145deg, #1d1d1d, #232323);
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             text-align: center;
+            width: 90%;
+            max-width: 400px;
         }
 
         h1 {
             margin-bottom: 20px;
+            font-size: 2em;
+            color: #03dac6;
         }
 
         .controls {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            text-align: left;
         }
 
         label {
             display: block;
             margin-bottom: 5px;
+            font-weight: bold;
+            color: #03dac6;
         }
 
         input, select {
-            width: calc(100% - 22px);
+            width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            background-color: #333333;
+            color: #ffffff;
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.6);
         }
 
         button {
-            padding: 10px 20px;
+            padding: 15px 20px;
             margin: 10px 5px;
             border: none;
-            border-radius: 4px;
-            background-color: #007bff;
-            color: #fff;
+            border-radius: 8px;
+            background-color: #03dac6;
+            color: #121212;
+            font-size: 1em;
             cursor: pointer;
+            transition: background-color 0.3s;
+            width: 48%;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #00c4b4;
         }
 
         #currentTempo {
             margin-top: 20px;
             font-size: 1.2em;
+            color: #ffffff;
         }
 
         .flash {
@@ -68,14 +84,21 @@
             height: 100px;
             margin: 20px auto;
             border-radius: 50%;
-            background-color: #fff;
+            background-color: #333333;
             transition: background-color 0.1s;
+            border: 2px solid #03dac6;
+        }
+
+        .credits {
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #888888;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Metronome</h1>
+        <h1>RJ Metronome</h1>
         <div class="controls">
             <label for="tempo">Tempo (BPM):</label>
             <input type="number" id="tempo" min="1" value="60">
@@ -100,6 +123,7 @@
         <button id="stopBtn">Stop</button>
         <div id="currentTempo">Current Tempo: <span id="tempoDisplay">60</span> BPM</div>
         <div class="flash" id="flash"></div>
+        <div class="credits">Credits: Mathew, Micky, and Sarah</div>
     </div>
     <script>
         let metronomeInterval;
@@ -143,7 +167,7 @@
             clearInterval(incrementInterval);
             isRunning = false;
             beatCounter = 0;
-            flash.style.backgroundColor = '#fff';
+            flash.style.backgroundColor = '#333333';
         }
 
         function playClick(timeSignature) {
@@ -162,9 +186,9 @@
 
             // Flash color change
             if (beatCounter % timeSignature === 0) {
-                flash.style.backgroundColor = '#ff0000'; // Red for the first beat
+                flash.style.backgroundColor = '#ff5252'; // Red for the first beat
             } else {
-                flash.style.backgroundColor = '#00ff00'; // Green for other beats
+                flash.style.backgroundColor = '#03dac6'; // Green for other beats
             }
 
             beatCounter = (beatCounter + 1) % timeSignature;
