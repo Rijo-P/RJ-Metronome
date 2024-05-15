@@ -56,8 +56,15 @@ function pauseAndIncrementTempo(increment) {
     setTimeout(() => {
         currentTempo += increment;
         document.getElementById('currentTempoDisplay').textContent = currentTempo;
-        startMetronome(); // Restart the metronome with the new tempo
+        restartMetronome(); // Restart the metronome with the new tempo
     }, 2000); // 2-second pause
+}
+
+function restartMetronome() {
+    const beatInterval = (60 / currentTempo) * 1000;
+    metronomeInterval = setInterval(() => {
+        playClick(parseInt(document.getElementById('timeSignature').value));
+    }, beatInterval);
 }
 
 function stopMetronome() {
