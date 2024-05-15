@@ -19,7 +19,7 @@ body {
     text-align: center;
     width: 90%; /* Adjust width to fit within the screen */
     max-width: 312px; /* Slightly reduced max-width */
-    height: 90%; /* Adjust height to fit within the screen */
+    height: 83%; /* Adjust height to fit within the screen */
     border: 2px solid #03dac6;
     overflow: hidden; /* Prevent scrolling */
     box-sizing: border-box;
