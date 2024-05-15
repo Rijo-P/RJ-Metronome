@@ -7,13 +7,13 @@ body {
     height: 100vh;
     margin: 0;
     color: #ffffff;
-    padding: 10px;
+    padding: 4px;
     box-sizing: border-box;
 }
 
 .container {
     background: linear-gradient(145deg, #1d1d1d, #232323);
-    padding: 10px;
+    padding: 3px;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     text-align: center;
