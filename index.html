@@ -26,7 +26,7 @@
             text-align: center;
             width: 100%;
             max-width: 390px;
-            height:600px;
+            height: calc(100vh * 2.5); /* Increased height by 2.5 times */
             border: 2px solid #03dac6;
             overflow-y: auto;
             box-sizing: border-box;
@@ -213,12 +213,12 @@
         }
 
         function pauseAndIncrementTempo(increment) {
-            stopMetronome();
+            clearInterval(metronomeInterval); // Stop the metronome
             longBeep.play(); // Play long beep sound
             setTimeout(() => {
                 currentTempo += increment;
                 document.getElementById('currentTempoDisplay').textContent = currentTempo;
-                startMetronome();
+                startMetronome(); // Restart the metronome with the new tempo
             }, 2000); // 2-second pause
         }
 
