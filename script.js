@@ -67,6 +67,8 @@ function pauseAndIncrementTempo(increment) {
     setTimeout(() => {
         currentTempo += increment;
         document.getElementById('currentTempoDisplay').textContent = currentTempo;
+        beatCounter = 0; // Reset beat counter
+        flash.style.backgroundColor = '#ff5252'; // Start with red color
         restartMetronome(); // Restart the metronome with the new tempo
     }, 2000); // 2-second pause
 }
