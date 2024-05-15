@@ -11,7 +11,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: calc(100vh - 15cm);
             margin: 0;
             color: #ffffff;
             padding: 10px; /* Added padding to prevent content from hitting screen edges */
@@ -25,7 +25,7 @@
             text-align: center;
             width: 100%;
             max-width: 270px;
-            max-height: calc(100vh - 30px); /* Adjusted max-height to fit better */
+            max-height: calc(100vh - 20cm); /* Adjusted max-height to fit better */
             border: 2px solid #03dac6;
             overflow-y: auto;
         }
@@ -129,18 +129,18 @@
         <h1>RJ Metronome</h1>
         <div class="controls">
             <label for="tempo">Tempo (BPM):</label>
-            <input type="range" id="tempo" min="40" max="200" value="60" oninput="updateTempoDisplay(this.value)">
+            <input type="range" id="tempo" min="40" max="400" value="60" oninput="updateTempoDisplay(this.value)">
             <div id="tempoDisplay" style="font-size: 1.1em; text-align: center;">60</div>
         </div>
         <div class="controls">
             <label for="increment">Increment (BPM):</label>
-            <input type="range" id="increment" min="1" max="10" value="1" oninput="updateIncrementDisplay(this.value)">
+            <input type="range" id="increment" min="1" max="60" value="1" oninput="updateIncrementDisplay(this.value)">
             <div id="incrementDisplay" style="font-size: 1.1em; text-align: center;">1</div>
         </div>
         <div class="controls">
-            <label for="interval">Increment Interval (seconds):</label>
+            <label for="interval">Increment Interval (seconds, minutes in brackets):</label>
             <input type="range" id="interval" min="10" max="600" value="60" oninput="updateIntervalDisplay(this.value)">
-            <div id="intervalDisplay" style="font-size: 1.1em; text-align: center;">60</div>
+            <div id="intervalDisplay" style="font-size: 1.1em; text-align: center;">60 (1 min)</div>
         </div>
         <div class="controls">
             <label for="timeSignature">Time Signature:</label>
@@ -163,6 +163,7 @@
         let beatCounter = 0;
         const flash = document.getElementById('flash');
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const longBeep = new Audio('https://www.soundjay.com/button/beep-01a.mp3'); // Long beep sound
 
         function updateTempoDisplay(value) {
             document.getElementById('tempoDisplay').textContent = value;
@@ -175,7 +176,8 @@
         }
 
         function updateIntervalDisplay(value) {
-            document.getElementById('intervalDisplay').textContent = value;
+            const minutes = (value / 60).toFixed(1);
+            document.getElementById('intervalDisplay').textContent = `${value} (${minutes} min)`;
         }
 
         function toggleMetronome() {
@@ -202,13 +204,18 @@
                 playClick(timeSignature);
             }, beatInterval);
             incrementInterval = setInterval(() => {
+                pauseAndIncrementTempo(increment);
+            }, interval);
+        }
+
+        function pauseAndIncrementTempo(increment) {
+            stopMetronome();
+            longBeep.play(); // Play long beep sound
+            setTimeout(() => {
                 currentTempo += increment;
                 document.getElementById('currentTempoDisplay').textContent = currentTempo;
-                clearInterval(metronomeInterval);
-                metronomeInterval = setInterval(() => {
-                    playClick(timeSignature);
-                }, (60 / currentTempo) * 1000);
-            }, interval);
+                startMetronome();
+            }, 2000); // 2-second pause
         }
 
         function stopMetronome() {
