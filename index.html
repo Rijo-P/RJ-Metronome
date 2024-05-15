@@ -25,6 +25,11 @@
             <div id="intervalDisplay" style="font-size: 1.1em; text-align: center;">60 (1 min)</div>
         </div>
         <div class="controls">
+            <label for="totalTime">Total Practice Time (Min):</label>
+            <input type="range" id="totalTime" min="1" max="20" value="10" oninput="updateTotalTimeDisplay(this.value)">
+            <div id="totalTimeDisplay" style="font-size: 1.1em; text-align: center;">10 min</div>
+        </div>
+        <div class="controls">
             <label for="timeSignature">Time Signature:</label>
             <select id="timeSignature">
                 <option value="4">4/4</option>
