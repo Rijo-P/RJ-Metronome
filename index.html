@@ -11,7 +11,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 1in);
+            height: calc(100vh - 15cm);
             margin: 0;
             color: #ffffff;
         }
@@ -92,7 +92,7 @@
             font-size: 1em;
             cursor: pointer;
             transition: background-color 0.3s;
-            width: 48%;
+            width: 100%;
         }
 
         button:hover {
@@ -148,8 +148,7 @@
                 <option value="7">7/8</option>
             </select>
         </div>
-        <button id="startBtn">Start</button>
-        <button id="stopBtn">Stop</button>
+        <button id="startStopBtn" onclick="toggleMetronome()">Start</button>
         <div id="currentTempo">Current Tempo: <span id="currentTempoDisplay">60</span> BPM</div>
         <div class="flash" id="flash"></div>
         <div class="credits">Credits: Mathew, Micky, and Sarah</div>
@@ -162,9 +161,6 @@
         let beatCounter = 0;
         const flash = document.getElementById('flash');
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        document.getElementById('startBtn').addEventListener('click', startMetronome);
-        document.getElementById('stopBtn').addEventListener('click', stopMetronome);
 
         function updateTempoDisplay(value) {
             document.getElementById('tempoDisplay').textContent = value;
@@ -180,9 +176,17 @@
             document.getElementById('intervalDisplay').textContent = value;
         }
 
-        function startMetronome() {
-            if (isRunning) return;
+        function toggleMetronome() {
+            if (isRunning) {
+                stopMetronome();
+                document.getElementById('startStopBtn').textContent = 'Start';
+            } else {
+                startMetronome();
+                document.getElementById('startStopBtn').textContent = 'Stop';
+            }
+        }
 
+        function startMetronome() {
             isRunning = true;
             currentTempo = parseInt(document.getElementById('tempo').value);
             const increment = parseInt(document.getElementById('increment').value);
