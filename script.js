@@ -1,5 +1,6 @@
 let metronomeInterval;
 let incrementInterval;
+let practiceTimeout;
 let currentTempo = 60;
 let isRunning = false;
 let beatCounter = 0;
@@ -22,6 +23,10 @@ function updateIntervalDisplay(value) {
     document.getElementById('intervalDisplay').textContent = `${value} (${minutes} min)`;
 }
 
+function updateTotalTimeDisplay(value) {
+    document.getElementById('totalTimeDisplay').textContent = `${value} min`;
+}
+
 function toggleMetronome() {
     if (isRunning) {
         stopMetronome();
@@ -37,6 +42,7 @@ function startMetronome() {
     currentTempo = parseInt(document.getElementById('tempo').value);
     const increment = parseInt(document.getElementById('increment').value);
     const interval = parseInt(document.getElementById('interval').value) * 1000; // convert seconds to milliseconds
+    const totalTime = parseInt(document.getElementById('totalTime').value) * 60 * 1000; // convert minutes to milliseconds
     const timeSignature = parseInt(document.getElementById('timeSignature').value);
 
     document.getElementById('currentTempoDisplay').textContent = currentTempo;
@@ -48,6 +54,10 @@ function startMetronome() {
     incrementInterval = setInterval(() => {
         pauseAndIncrementTempo(increment);
     }, interval);
+    practiceTimeout = setTimeout(() => {
+        stopMetronome();
+        alert('Practice time is over!');
+    }, totalTime);
 }
 
 function pauseAndIncrementTempo(increment) {
@@ -70,6 +80,7 @@ function restartMetronome() {
 function stopMetronome() {
     clearInterval(metronomeInterval);
     clearInterval(incrementInterval);
+    clearTimeout(practiceTimeout);
     isRunning = false;
     beatCounter = 0;
     flash.style.backgroundColor = '#333333';
