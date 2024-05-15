@@ -13,43 +13,43 @@ body {
 
 .container {
     background: linear-gradient(145deg, #1d1d1d, #232323);
-    padding: 20px;
+    padding: 10px;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     text-align: center;
-    width: 80%; /* Adjust width to fit 80% of the screen */
-    max-width: 312px; /* 80% of 390px */
-    height: 80%; /* Adjust height to fit 80% of the screen */
+    width: 90%; /* Adjust width to fit within the screen */
+    max-width: 340px; /* Slightly reduced max-width */
+    height: 90%; /* Adjust height to fit within the screen */
     border: 2px solid #03dac6;
-    overflow-y: auto;
+    overflow: hidden; /* Prevent scrolling */
     box-sizing: border-box;
 }
 
 h1 {
-    margin-bottom: 20px;
-    font-size: 1.5em;
+    margin-bottom: 15px;
+    font-size: 1.3em; /* Reduced font size */
     color: #03dac6;
 }
 
 .controls {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     text-align: left;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     font-weight: bold;
     color: #03dac6;
 }
 
 input, select {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    padding: 6px; /* Reduced padding */
+    margin-bottom: 8px; /* Reduced margin */
     border: none;
     border-radius: 8px;
-    font-size: 1em;
+    font-size: 0.9em; /* Reduced font size */
     background-color: #333333;
     color: #ffffff;
     box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.6);
@@ -58,10 +58,10 @@ input, select {
 
 input[type="range"] {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 8px; /* Reduced margin */
     -webkit-appearance: none;
     appearance: none;
-    height: 8px;
+    height: 6px; /* Reduced height */
     background: #03dac6;
     outline: none;
     opacity: 0.9;
@@ -73,16 +73,16 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 14px; /* Reduced thumb size */
+    height: 14px; /* Reduced thumb size */
     background: #ff5252;
     cursor: pointer;
     border-radius: 50%;
 }
 
 button {
-    padding: 10px 15px;
-    margin: 10px 5px;
+    padding: 8px 10px; /* Reduced padding */
+    margin: 10px 0; /* Adjusted margin */
     border: none;
     border-radius: 8px;
     background-color: #03dac6;
@@ -99,15 +99,15 @@ button:hover {
 }
 
 #currentTempo {
-    margin-top: 15px;
-    font-size: 1.1em;
+    margin-top: 10px; /* Reduced margin */
+    font-size: 1em; /* Reduced font size */
     color: #ffffff;
 }
 
 .flash {
-    width: 80px;
-    height: 80px;
-    margin: 15px auto;
+    width: 60px; /* Reduced size */
+    height: 60px; /* Reduced size */
+    margin: 10px auto; /* Reduced margin */
     border-radius: 50%;
     background-color: #333333;
     transition: background-color 0.1s;
@@ -115,7 +115,7 @@ button:hover {
 }
 
 .credits {
-    margin-top: 15px;
-    font-size: 0.8em;
+    margin-top: 10px; /* Reduced margin */
+    font-size: 0.7em; /* Reduced font size */
     color: #888888;
 }
