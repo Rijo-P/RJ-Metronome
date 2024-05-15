@@ -18,7 +18,7 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     text-align: center;
     width: 90%; /* Adjust width to fit within the screen */
-    max-width: 340px; /* Slightly reduced max-width */
+    max-width: 312px; /* Slightly reduced max-width */
     height: 90%; /* Adjust height to fit within the screen */
     border: 2px solid #03dac6;
     overflow: hidden; /* Prevent scrolling */
@@ -26,13 +26,13 @@ body {
 }
 
 h1 {
-    margin-bottom: 15px;
+    margin-bottom: 10px; /* Reduced margin */
     font-size: 1.3em; /* Reduced font size */
     color: #03dac6;
 }
 
 .controls {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-align: left;
 }
 
@@ -46,7 +46,7 @@ label {
 input, select {
     width: 100%;
     padding: 6px; /* Reduced padding */
-    margin-bottom: 8px; /* Reduced margin */
+    margin-bottom: 6px; /* Reduced margin */
     border: none;
     border-radius: 8px;
     font-size: 0.9em; /* Reduced font size */
@@ -58,7 +58,7 @@ input, select {
 
 input[type="range"] {
     width: 100%;
-    margin-bottom: 8px; /* Reduced margin */
+    margin-bottom: 6px; /* Reduced margin */
     -webkit-appearance: none;
     appearance: none;
     height: 6px; /* Reduced height */
@@ -82,7 +82,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 button {
     padding: 8px 10px; /* Reduced padding */
-    margin: 10px 0; /* Adjusted margin */
+    margin: 8px 0; /* Adjusted margin */
     border: none;
     border-radius: 8px;
     background-color: #03dac6;
@@ -99,14 +99,14 @@ button:hover {
 }
 
 #currentTempo {
-    margin-top: 10px; /* Reduced margin */
+    margin-top: 6px; /* Reduced margin */
     font-size: 1em; /* Reduced font size */
     color: #ffffff;
 }
 
 .flash {
-    width: 60px; /* Reduced size */
-    height: 60px; /* Reduced size */
+    width: 50px; /* Reduced size */
+    height: 50px; /* Reduced size */
     margin: 10px auto; /* Reduced margin */
     border-radius: 50%;
     background-color: #333333;
@@ -115,7 +115,7 @@ button:hover {
 }
 
 .credits {
-    margin-top: 10px; /* Reduced margin */
+    margin-top: 6px; /* Reduced margin */
     font-size: 0.7em; /* Reduced font size */
     color: #888888;
 }
