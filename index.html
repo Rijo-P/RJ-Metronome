@@ -11,9 +11,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 15cm);
+            height: 100vh;
             margin: 0;
             color: #ffffff;
+            padding: 10px; /* Added padding to prevent content from hitting screen edges */
         }
 
         .container {
@@ -22,8 +23,9 @@
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             text-align: center;
-            width: calc(100% - 20px); /* Adjusted width to fit well within iPhone 14 screen */
-            max-width: 270px; /* Slightly reduced max width */
+            width: 100%;
+            max-width: 270px;
+            max-height: calc(100vh - 30px); /* Adjusted max-height to fit better */
             border: 2px solid #03dac6;
             overflow-y: auto;
         }
