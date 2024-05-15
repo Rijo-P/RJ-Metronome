@@ -11,7 +11,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: calc(100vh - 1in);
             margin: 0;
             color: #ffffff;
         }
@@ -22,19 +22,20 @@
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             text-align: center;
-            width: 90%;
+            width: calc(100% - 10cm);
             max-width: 350px;
+            border: 2px solid #03dac6;
             overflow-y: auto;
         }
 
         h1 {
             margin-bottom: 20px;
-            font-size: 2em;
+            font-size: 1.5em;
             color: #03dac6;
         }
 
         .controls {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: left;
         }
 
@@ -47,11 +48,11 @@
 
         input, select {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             margin-bottom: 10px;
             border: none;
             border-radius: 8px;
-            font-size: 1.1em;
+            font-size: 1em;
             background-color: #333333;
             color: #ffffff;
             box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.6);
@@ -62,7 +63,7 @@
             margin-bottom: 10px;
             -webkit-appearance: none;
             appearance: none;
-            height: 10px;
+            height: 8px;
             background: #03dac6;
             outline: none;
             opacity: 0.9;
@@ -74,15 +75,15 @@
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             background: #ff5252;
             cursor: pointer;
             border-radius: 50%;
         }
 
         button {
-            padding: 15px 20px;
+            padding: 10px 15px;
             margin: 10px 5px;
             border: none;
             border-radius: 8px;
@@ -99,15 +100,15 @@
         }
 
         #currentTempo {
-            margin-top: 20px;
-            font-size: 1.2em;
+            margin-top: 15px;
+            font-size: 1.1em;
             color: #ffffff;
         }
 
         .flash {
-            width: 100px;
-            height: 100px;
-            margin: 20px auto;
+            width: 80px;
+            height: 80px;
+            margin: 15px auto;
             border-radius: 50%;
             background-color: #333333;
             transition: background-color 0.1s;
@@ -115,7 +116,7 @@
         }
 
         .credits {
-            margin-top: 20px;
+            margin-top: 15px;
             font-size: 0.8em;
             color: #888888;
         }
@@ -131,11 +132,13 @@
         </div>
         <div class="controls">
             <label for="increment">Increment (BPM):</label>
-            <input type="number" id="increment" min="1" value="1">
+            <input type="range" id="increment" min="1" max="10" value="1" oninput="updateIncrementDisplay(this.value)">
+            <div id="incrementDisplay" style="font-size: 1.1em; text-align: center;">1</div>
         </div>
         <div class="controls">
             <label for="interval">Increment Interval (seconds):</label>
-            <input type="number" id="interval" min="1" value="60">
+            <input type="range" id="interval" min="10" max="600" value="60" oninput="updateIntervalDisplay(this.value)">
+            <div id="intervalDisplay" style="font-size: 1.1em; text-align: center;">60</div>
         </div>
         <div class="controls">
             <label for="timeSignature">Time Signature:</label>
@@ -167,6 +170,14 @@
             document.getElementById('tempoDisplay').textContent = value;
             currentTempo = parseInt(value);
             document.getElementById('currentTempoDisplay').textContent = value;
+        }
+
+        function updateIncrementDisplay(value) {
+            document.getElementById('incrementDisplay').textContent = value;
+        }
+
+        function updateIntervalDisplay(value) {
+            document.getElementById('intervalDisplay').textContent = value;
         }
 
         function startMetronome() {
