@@ -7,6 +7,7 @@ let beatCounter = 0;
 const flash = document.getElementById('flash');
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const longBeep = new Audio('ding2.wav'); // Long beep sound
+let wakeLock = null;
 
 function updateTempoDisplay(value) {
     document.getElementById('tempoDisplay').textContent = value;
@@ -37,8 +38,21 @@ function toggleMetronome() {
     }
 }
 
+async function requestWakeLock() {
+    try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => {
+            console.log('Wake Lock was released');
+        });
+        console.log('Wake Lock is active');
+    } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+    }
+}
+
 function startMetronome() {
     isRunning = true;
+    requestWakeLock();
     currentTempo = parseInt(document.getElementById('tempo').value);
     const increment = parseInt(document.getElementById('increment').value);
     const interval = parseInt(document.getElementById('interval').value) * 1000; // convert seconds to milliseconds
@@ -52,16 +66,18 @@ function startMetronome() {
         playClick(timeSignature);
     }, beatInterval);
     incrementInterval = setInterval(() => {
-        pauseAndIncrementTempo(increment);
+        pauseAndIncrementTempo(increment, timeSignature);
     }, interval);
     practiceTimeout = setTimeout(() => {
         stopMetronome();
         alert('Practice time is over!');
         location.reload(); // Refresh the page
     }, totalTime);
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 }
 
-function pauseAndIncrementTempo(increment) {
+function pauseAndIncrementTempo(increment, timeSignature) {
     clearInterval(metronomeInterval); // Stop the metronome
     longBeep.play(); // Play long beep sound
     setTimeout(() => {
@@ -69,14 +85,14 @@ function pauseAndIncrementTempo(increment) {
         document.getElementById('currentTempoDisplay').textContent = currentTempo;
         beatCounter = 0; // Reset beat counter
         flash.style.backgroundColor = '#ff5252'; // Start with red color
-        restartMetronome(); // Restart the metronome with the new tempo
+        restartMetronome(timeSignature); // Restart the metronome with the new tempo
     }, 2000); // 2-second pause
 }
 
-function restartMetronome() {
+function restartMetronome(timeSignature) {
     const beatInterval = (60 / currentTempo) * 1000;
     metronomeInterval = setInterval(() => {
-        playClick(parseInt(document.getElementById('timeSignature').value));
+        playClick(timeSignature);
     }, beatInterval);
 }
 
@@ -87,6 +103,11 @@ function stopMetronome() {
     isRunning = false;
     beatCounter = 0;
     flash.style.backgroundColor = '#333333';
+    if (wakeLock !== null) {
+        wakeLock.release();
+        wakeLock = null;
+    }
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
 }
 
 function playClick(timeSignature) {
@@ -111,4 +132,12 @@ function playClick(timeSignature) {
     }
 
     beatCounter = (beatCounter + 1) % timeSignature;
+}
+
+function handleVisibilityChange() {
+    if (document.visibilityState === 'hidden') {
+        stopMetronome();
+    } else if (document.visibilityState === 'visible' && isRunning) {
+        startMetronome();
+    }
 }
