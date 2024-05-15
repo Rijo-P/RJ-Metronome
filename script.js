@@ -57,6 +57,7 @@ function startMetronome() {
     practiceTimeout = setTimeout(() => {
         stopMetronome();
         alert('Practice time is over!');
+        location.reload(); // Refresh the page
     }, totalTime);
 }
 
