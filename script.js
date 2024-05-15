@@ -6,7 +6,7 @@ let isRunning = false;
 let beatCounter = 0;
 const flash = document.getElementById('flash');
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const longBeep = new Audio('https://www.soundjay.com/button/beep-01a.mp3'); // Long beep sound
+const longBeep = new Audio('ding2.wav'); // Long beep sound
 
 function updateTempoDisplay(value) {
     document.getElementById('tempoDisplay').textContent = value;
