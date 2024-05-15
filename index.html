@@ -23,7 +23,8 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             text-align: center;
             width: 90%;
-            max-width: 400px;
+            max-width: 350px;
+            overflow-y: auto;
         }
 
         h1 {
@@ -50,10 +51,34 @@
             margin-bottom: 10px;
             border: none;
             border-radius: 8px;
-            font-size: 1em;
+            font-size: 1.1em;
             background-color: #333333;
             color: #ffffff;
             box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            margin-bottom: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 10px;
+            background: #03dac6;
+            outline: none;
+            opacity: 0.9;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+            border-radius: 8px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #ff5252;
+            cursor: pointer;
+            border-radius: 50%;
         }
 
         button {
@@ -101,7 +126,8 @@
         <h1>RJ Metronome</h1>
         <div class="controls">
             <label for="tempo">Tempo (BPM):</label>
-            <input type="number" id="tempo" min="1" value="60">
+            <input type="range" id="tempo" min="40" max="200" value="60" oninput="updateTempoDisplay(this.value)">
+            <div id="tempoDisplay" style="font-size: 1.1em; text-align: center;">60</div>
         </div>
         <div class="controls">
             <label for="increment">Increment (BPM):</label>
@@ -121,14 +147,14 @@
         </div>
         <button id="startBtn">Start</button>
         <button id="stopBtn">Stop</button>
-        <div id="currentTempo">Current Tempo: <span id="tempoDisplay">60</span> BPM</div>
+        <div id="currentTempo">Current Tempo: <span id="currentTempoDisplay">60</span> BPM</div>
         <div class="flash" id="flash"></div>
         <div class="credits">Credits: Mathew, Micky, and Sarah</div>
     </div>
     <script>
         let metronomeInterval;
         let incrementInterval;
-        let currentTempo;
+        let currentTempo = 60;
         let isRunning = false;
         let beatCounter = 0;
         const flash = document.getElementById('flash');
@@ -136,6 +162,12 @@
 
         document.getElementById('startBtn').addEventListener('click', startMetronome);
         document.getElementById('stopBtn').addEventListener('click', stopMetronome);
+
+        function updateTempoDisplay(value) {
+            document.getElementById('tempoDisplay').textContent = value;
+            currentTempo = parseInt(value);
+            document.getElementById('currentTempoDisplay').textContent = value;
+        }
 
         function startMetronome() {
             if (isRunning) return;
@@ -146,7 +178,7 @@
             const interval = parseInt(document.getElementById('interval').value) * 1000; // convert seconds to milliseconds
             const timeSignature = parseInt(document.getElementById('timeSignature').value);
 
-            document.getElementById('tempoDisplay').textContent = currentTempo;
+            document.getElementById('currentTempoDisplay').textContent = currentTempo;
 
             const beatInterval = (60 / currentTempo) * 1000;
             metronomeInterval = setInterval(() => {
@@ -154,7 +186,7 @@
             }, beatInterval);
             incrementInterval = setInterval(() => {
                 currentTempo += increment;
-                document.getElementById('tempoDisplay').textContent = currentTempo;
+                document.getElementById('currentTempoDisplay').textContent = currentTempo;
                 clearInterval(metronomeInterval);
                 metronomeInterval = setInterval(() => {
                     playClick(timeSignature);
